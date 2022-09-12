@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-const baseDirectURL = 'https://testapp.genescor.com';
-const baseURL = 'https://testapp.genescor.com/api';
+const baseDirectURL = 'http://localhost:8000';
+const baseURL = 'http://localhost:8000/api';
 
 const commentsURL = baseURL + '/login';
 const twilioURL = 'http://twiliochatroomaccesstoken-4453.twil.io/accessToken';

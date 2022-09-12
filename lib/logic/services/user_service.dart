@@ -14,7 +14,7 @@ Future<ApiResponse> login(String email, String password) async {
     final response = await http.post(Uri.parse(loginURL),
         headers: {'Accept': 'applicaton/json'},
         body: {'username': email, 'password': password});
-
+    print(response);
     switch (response.statusCode) {
       case 200:
         apiResponse.data = User.fromJson(jsonDecode(response.body));
@@ -39,6 +39,7 @@ Future<ApiResponse> login(String email, String password) async {
 Future<ApiResponse> register(String firstName, String lastName, String email,
     String password, String passwordConfirmation) async {
   ApiResponse apiResponse = ApiResponse();
+  print(registerURL);
   try {
     final response = await http.post(Uri.parse(registerURL), headers: {
       'Accept': 'applicaton/json'
