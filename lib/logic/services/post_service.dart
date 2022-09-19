@@ -6,8 +6,8 @@ import 'package:http/http.dart' as http;
 
 import 'package:genescor/logic/declarations/constant.dart';
 import 'package:genescor/data/models/api_response.dart';
+import 'package:genescor/data/models/post_blog.dart';
 import 'package:genescor/data/models/post.dart';
-
 import 'package:genescor/logic/services/user_service.dart';
 
 //create A Post
@@ -100,22 +100,16 @@ Future<ApiResponse> getPosts() async {
   ApiResponse apiResponse = ApiResponse();
   try {
     String token = await getToken();
-    //print(postsURL);
     final response = await http.get(Uri.parse(postsURL), headers: {
       'Accept': 'applicaton/json',
       'Authorization': 'Bearer $token',
       'Content-type': 'application/json',
     });
-
     switch (response.statusCode) {
       case 200:
-        print(jsonDecode(response.body)['blogs']);
         apiResponse.data = jsonDecode(response.body)['blogs']
-            .map((p) => Post.fromJson(p))
+            .map<Blog>((p) => Blog.fromJson(p))
             .toList();
-        print(apiResponse.data);
-        apiResponse.data as List<Post>;
-        //print(apiResponse);
         break;
       case 422:
         final errors = jsonDecode(response.body)['errors'];
@@ -188,7 +182,8 @@ Future<ApiResponse> updatePost(
         apiResponse.data = jsonDecode(response.body)['posts.data']
             .map((p) => Post.fromJson(p))
             .toList();
-        apiResponse.data as List<dynamic>;
+        apiResponse.data as List<Post>;
+        print(apiResponse.data);
         break;
       case 422:
         final errors = jsonDecode(response.body)['errors'];

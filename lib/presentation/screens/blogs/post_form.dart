@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:genescor/data/models/post.dart';
+
+import 'package:genescor/data/models/post_blog.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:genescor/logic/declarations/constant.dart';
@@ -14,7 +16,7 @@ import 'package:genescor/logic/services/post_service.dart';
 import 'package:genescor/presentation/screens/auth/login.dart';
 
 class PostForm extends StatefulWidget {
-  final Post? post;
+  final Blog? post;
   final String? title;
 
   PostForm({

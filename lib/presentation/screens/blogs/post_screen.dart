@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:genescor/logic/declarations/constant.dart';
 import 'package:genescor/data/models/api_response.dart';
 import 'package:genescor/data/models/post.dart';
+import 'package:genescor/data/models/post_blog.dart';
 import 'package:genescor/presentation/screens/blogs/post_form.dart';
 
 import 'package:genescor/logic/services/post_service.dart';
@@ -16,7 +17,7 @@ class PostScreen extends StatefulWidget {
 }
 
 class _PostScreenState extends State<PostScreen> {
-  List<Post> _postList = [];
+  List<Blog> _postList = List<Blog>.empty();
   int userId = 0;
   bool _loading = true;
 
@@ -59,10 +60,9 @@ class _PostScreenState extends State<PostScreen> {
   Future<void> retrievePosts() async {
     userId = await getUserId();
     ApiResponse response = await getPosts();
-
     if (response.error == null) {
       setState(() {
-        _postList = response.data as List<Post>;
+        _postList = response.data as List<Blog>;
         _loading = false;
       });
     } else if (response.error == 'unauthorized') {
@@ -105,7 +105,7 @@ class _PostScreenState extends State<PostScreen> {
                 child: ListView.builder(
                     itemCount: _postList.length,
                     itemBuilder: (BuildContext context, int index) {
-                      Post post = _postList[index];
+                      Blog post = _postList[index];
                       return Container(
                         padding:
                             EdgeInsets.symmetric(horizontal: 4, vertical: 10),
@@ -206,26 +206,12 @@ class _PostScreenState extends State<PostScreen> {
                                     decoration: BoxDecoration(
                                         image: DecorationImage(
                                       image: NetworkImage(
-                                          '$baseDirectURL/assets/images/gallery/05.png'),
+                                          '$baseDirectURL/img/gallery/1.jpg'),
                                       fit: BoxFit.cover,
                                     ))),
                             Text(post.content!.length > 30
                                 ? '${post.content!.substring(0, 30)}...'
                                 : '${post.content}'),
-                            Row(children: [
-                              kLikeAndComment(
-                                  post.likesCount ?? 0,
-                                  post.selfLiked == true
-                                      ? Icons.favorite
-                                      : Icons.favorite_outline,
-                                  post.selfLiked == true
-                                      ? Colors.red
-                                      : Colors.black54, () {
-                                handlePostLike(post.id);
-                              }),
-                              kLikeAndComment(post.commentCount ?? 0,
-                                  Icons.comment, Colors.black54, () {}),
-                            ]),
                           ],
                         ),
                       );
